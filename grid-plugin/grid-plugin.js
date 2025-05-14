@@ -1,17 +1,29 @@
-const DEFAULT_COLUMNS = 3;
-
-// Create the image grid layout
-function createImageGrid(images, columns = DEFAULT_COLUMNS) {
+function createImageGrid(images, columns = 3) {
     const gridContainer = document.createElement('div');
     gridContainer.className = 'img-grid';
+    gridContainer.style.cssText = `
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin: 1rem 0;
+    `;
 
     images.forEach(img => {
         const wrapper = document.createElement('div');
         wrapper.className = 'img-grid-item';
+        wrapper.style.cssText = `
+            flex: 0 1 calc(${100 / columns}% - 10px);
+            min-width: 200px;
+        `;
 
         const parentAnchor = img.closest('a');
         const imgClone = img.cloneNode(true);
-        imgClone.style.cssText = 'width: 100%; height: auto;';
+        imgClone.style.cssText = `
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        `;
 
         if (parentAnchor) {
             const anchorClone = parentAnchor.cloneNode(false);
@@ -27,7 +39,6 @@ function createImageGrid(images, columns = DEFAULT_COLUMNS) {
     return gridContainer;
 }
 
-// Create the link grid layout
 function createLinkGrid(links) {
     const gridContainer = document.createElement('div');
     gridContainer.className = 'list-link-grid';
@@ -55,7 +66,6 @@ function createLinkGrid(links) {
     return gridContainer;
 }
 
-// Process the lists to convert them into grids (both image and link grids)
 function processImageAndLinkLists(content) {
     const container = document.createElement('div');
     container.innerHTML = content;
@@ -63,17 +73,23 @@ function processImageAndLinkLists(content) {
     const lists = Array.from(container.getElementsByTagName('ul'));
 
     lists.forEach(list => {
+        const listItems = Array.from(list.children);
         const allImages = list.querySelectorAll('img');
         const allLinks = list.querySelectorAll('a');
 
-        // Check if the list contains images and transform to grid
-        if (allImages.length >= 1) {
-            const columns = list.getAttribute('data-columns') || DEFAULT_COLUMNS;
+        if (
+            allImages.length >= 1 &&
+            allImages.length === listItems.length
+        ) {
+            const columns = list.getAttribute('data-columns') || 3;
             const grid = createImageGrid(Array.from(allImages), parseInt(columns));
             list.parentNode.replaceChild(grid, list);
         }
-        // Check if the list contains links and transform to grid
-        else if (allLinks.length >= 1 && allImages.length === 0) {
+        else if (
+            allLinks.length >= 1 &&
+            allLinks.length === listItems.length &&
+            allImages.length === 0
+        ) {
             const grid = createLinkGrid(Array.from(allLinks));
             list.parentNode.replaceChild(grid, list);
         }
@@ -82,8 +98,7 @@ function processImageAndLinkLists(content) {
     return container.innerHTML;
 }
 
-// Export as a default function plugin
-export default function gridPlugin(hook) {
+export default function(hook) {
     hook.afterEach((html, next) => {
         const processedHtml = processImageAndLinkLists(html);
         next(processedHtml);
