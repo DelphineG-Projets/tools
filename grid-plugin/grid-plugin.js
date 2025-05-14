@@ -98,9 +98,16 @@ function processImageAndLinkLists(content) {
     return container.innerHTML;
 }
 
+    function processGroupedBlocks(content) {
+        return content.replace(/<!-- start-group -->([\s\S]*?)<!-- end[- ]group -->/g, (match, p1) => {
+            return `<div class="group" style="border-left: 3px solid var(--theme-color); padding-left: 1em;">\n${p1.trim()}\n</div>`;
+        });
+    }
+
 export default function(hook) {
     hook.afterEach((html, next) => {
-        const processedHtml = processImageAndLinkLists(html);
+        const grouped = processGroupedBlocks(html);
+        const processedHtml = processImageAndLinkLists(grouped);
         next(processedHtml);
     });
 }
