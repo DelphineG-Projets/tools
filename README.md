@@ -1,1 +1,1 @@
-# Tools and Plugins for docsify document
+# Tools and Plugins
