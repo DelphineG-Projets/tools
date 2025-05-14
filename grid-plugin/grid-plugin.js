@@ -1,6 +1,6 @@
-// grid-plugin.js
 const DEFAULT_COLUMNS = 3;
 
+// Create the image grid layout
 function createImageGrid(images, columns = DEFAULT_COLUMNS) {
     const gridContainer = document.createElement('div');
     gridContainer.className = 'img-grid';
@@ -27,6 +27,7 @@ function createImageGrid(images, columns = DEFAULT_COLUMNS) {
     return gridContainer;
 }
 
+// Create the link grid layout
 function createLinkGrid(links) {
     const gridContainer = document.createElement('div');
     gridContainer.className = 'list-link-grid';
@@ -54,6 +55,7 @@ function createLinkGrid(links) {
     return gridContainer;
 }
 
+// Process the lists to convert them into grids (both image and link grids)
 function processImageAndLinkLists(content) {
     const container = document.createElement('div');
     container.innerHTML = content;
@@ -64,11 +66,14 @@ function processImageAndLinkLists(content) {
         const allImages = list.querySelectorAll('img');
         const allLinks = list.querySelectorAll('a');
 
+        // Check if the list contains images and transform to grid
         if (allImages.length >= 1) {
             const columns = list.getAttribute('data-columns') || DEFAULT_COLUMNS;
             const grid = createImageGrid(Array.from(allImages), parseInt(columns));
             list.parentNode.replaceChild(grid, list);
-        } else if (allLinks.length >= 1) {
+        }
+        // Check if the list contains links and transform to grid
+        else if (allLinks.length >= 1 && allImages.length === 0) {
             const grid = createLinkGrid(Array.from(allLinks));
             list.parentNode.replaceChild(grid, list);
         }
@@ -77,7 +82,8 @@ function processImageAndLinkLists(content) {
     return container.innerHTML;
 }
 
-export default function(hook) {
+// Export as a default function plugin
+export default function gridPlugin(hook) {
     hook.afterEach((html, next) => {
         const processedHtml = processImageAndLinkLists(html);
         next(processedHtml);
