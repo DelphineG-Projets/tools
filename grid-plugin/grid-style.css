@@ -1,0 +1,124 @@
+:root {
+  --theme-hue: 330;
+  --theme-brightness: 76%;
+  --theme-color: #ff85c2;
+}
+
+figcaption {
+  background-color: var(--theme-color);
+  color: white;
+  font-weight: bolder;
+  text-decoration: none !important;
+  font-weight: 400;
+  font-style: normal !important;
+  text-transform: uppercase;
+  padding: 10px;
+  line-height: 20px;
+  text-align: left !important;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  border-radius: 0 0 15px 15px;
+}
+
+.img-grid img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.img-grid video {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.img-grid a {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.list-link-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
+  margin: 20px;
+}
+.list-link-item {
+  background-color: var(--theme-color);
+  color: white;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+  max-width: 400px;
+  min-width: 250px;
+  background-image: url("./medias/cover.jpg");
+  background-blend-mode: multiply;
+}
+.list-link-item:hover {
+  transform: scale(1.05);
+}
+.list-link-item p {
+  color: white;
+  margin: 0;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.list-link-item p:nth-child(1),
+.list-link-item p:nth-child(2) {
+  font-size: 2em;
+  font-weight: normal;
+  text-align: start;
+}
+.list-link-item p:nth-child(2) {
+  margin-top: 0.4px;
+  font-size: 1.5em;
+  font-weight: normal;
+}
+.list-link-item p:nth-child(3) {
+  font-size: 1.5em;
+  font-weight: 100;
+  color: white;
+  text-align: end;
+  position: relative;
+  bottom: 0;
+}
+
+[id^="category-"] {
+  display: none;
+}
+
+hr:has(+ [id^="category-"]) {
+  display: none;
+}
+
+.img-grid img {
+  border: 2px solid var(--theme-color);
+  transition: border 0.5s ease-in-out, opacity 0.5s ease-in-out,
+    filter 0.5s ease-in-out;
+}
+
+.img-grid figcaption {
+  border: 2px solid var(--theme-color);
+  border-top: none;
+  transition: border 0.5s ease-in-out;
+}
+
+.img-grid a:hover img {
+  border: 2px solid yellow;
+  filter: sepia(20%) saturate(150%) brightness(110%);
+}
+
+.img-grid a:hover figcaption {
+  border: 2px solid yellow;
+  border-top: none;
+}
