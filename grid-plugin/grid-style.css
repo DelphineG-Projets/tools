@@ -93,7 +93,6 @@ figcaption {
   bottom: 0;
 }
 
-
 .img-grid img {
   border: 2px solid var(--theme-color);
   transition: border 0.5s ease-in-out, opacity 0.5s ease-in-out,
@@ -114,4 +113,21 @@ figcaption {
 .img-grid a:hover figcaption {
   border: 2px solid yellow;
   border-top: none;
+}
+
+.group h5 {
+  margin-bottom: 0;
+  text-transform: uppercase;
+}
+
+.group p,
+.group ul {
+  margin-top: 0px !important;
+  color: rgb(168, 168, 168);
+}
+
+.group h3,
+.group h3 a span {
+  text-transform: uppercase;
+  color: var(--theme-color) !important;
 }
